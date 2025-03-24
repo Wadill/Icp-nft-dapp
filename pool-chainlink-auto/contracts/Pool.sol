@@ -57,9 +57,4 @@ contract AutoPool is Utils, Pausable, AutomationCompatibleInterface {
     }
 
     function performUpkeep(bytes calldata /* performData */) external override {
-        if ((block.timestamp - lastTimeStamp) > interval) {
-            lastTimeStamp = block.timestamp;
-            transferTokens(transferAddresses);
-        }
-
-        
+        if ((block.timesta
