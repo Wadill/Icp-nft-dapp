@@ -63,18 +63,3 @@ contract AutoPool is Utils, Pausable, AutomationCompatibleInterface {
         }
 
         
-    }
-
-    function setSupportedToken(address _supportedToken) external onlyOwner {
-        supportedToken=_supportedToken;
-    }
-
-
-    //modifiers
-
-    modifier onlyOwner() {
-        require(msg.sender == owner, "Only owner can call this function");
-        _;
-    }
-   
-}
