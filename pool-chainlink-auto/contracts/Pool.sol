@@ -53,5 +53,4 @@ contract AutoPool is Utils, Pausable, AutomationCompatibleInterface {
     {
         // upkeepNeeded = amount > 0;
         upkeepNeeded = transferAddresses.length > 0;
-        // We don't use the checkData in this example. The checkData is defined when the Upkeep was registered.
-    }
+        // We d
