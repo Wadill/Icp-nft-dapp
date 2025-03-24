@@ -39,15 +39,7 @@ contract AutoPool is Utils, Pausable, AutomationCompatibleInterface {
     //send respective amounts to addresses
 
     function transferTokens(address[] memory transferAddresses) public{
-        uint256 length = transferAddresses.length;
-        for(uint256 idx=0; idx<length; idx++){
-            address receiver=payable(transferAddresses[idx]); 
-            uint256 amount = pendingTransfer[receiver];
-            bool success =_sendAsset(supportedToken,receiver, amount);
-            require(success, "Token transfer failed");
-            pendingTransfer[receiver]=0;   
-        }
-
+        uint
         emptyAddress();
     }
 
