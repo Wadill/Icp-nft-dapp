@@ -3,10 +3,10 @@ node_modules
 dist
 dist-ssr
 *.local
-
+.husky
 node_modules
 .env
-
+.yarn 
 #Hardhat files
 cache
 artifacts

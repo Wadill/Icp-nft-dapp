@@ -5,9 +5,7 @@ import React, { useEffect, useState } from "react";
 import toast, { Toaster } from "react-hot-toast";
 import { NftProvider } from "use-nft";
 
-// Remove this import
-// import MyAwesomeLogoArtifacts from "./artifacts/contracts/MyAwesomeLogo.sol/MyAwesomeLogo.json";
-
+import MyAwesomeLogoArtifacts from "./artifacts/contracts/MyAwesomeLogo.sol/MyAwesomeLogo.json";
 import AddItemModal from "./components/AddItemModal";
 import Demo from "./components/Demo";
 import { getLibrary } from "./components/Demo";
@@ -15,15 +13,9 @@ import { Nft } from "./components/Nft";
 import { Pagination } from "./components/Pagination";
 import logger from "./logger";
 import { networkName, CHAIN_ID } from "./networkName";
-import { type MyAwesomeLogo } from "./types";
+import type { MyAwesomeLogo } from "./types";
 
-// Replace with your actual contract address
 export const CONTRACT_DEPLOYED_ADDRESS = import.meta.env.VITE_NFT_DEPLOYED_ADDRESS;
-
-// Replace with your actual contract ABI
-const CONTRACT_ABI = [
-  // Add your contract ABI here
-];
 
 declare global {
   // eslint-disable-next-line @typescript-eslint/consistent-type-definitions
@@ -52,7 +44,7 @@ function NFTApp() {
     const provider = library || new ethers.providers.Web3Provider(window.ethereum);
     const contract = new ethers.Contract(
       CONTRACT_DEPLOYED_ADDRESS,
-      CONTRACT_ABI, // Use the hardcoded ABI
+      MyAwesomeLogoArtifacts.abi,
       provider,
     ) as MyAwesomeLogo;
     contract
@@ -63,6 +55,7 @@ function NFTApp() {
       .catch(logger.error);
   };
 
+  // biome-ignore lint/correctness/useExhaustiveDependencies: Only fetch total when library is available
   useEffect(() => {
     try {
       fetchTotal();
@@ -76,7 +69,7 @@ function NFTApp() {
     const signer = provider.getSigner();
     const contract = new ethers.Contract(
       CONTRACT_DEPLOYED_ADDRESS,
-      CONTRACT_ABI, // Use the hardcoded ABI
+      MyAwesomeLogoArtifacts.abi,
       signer,
     ) as MyAwesomeLogo;
     // Get current account
@@ -90,7 +83,7 @@ function NFTApp() {
       const transaction = await contract.freeMint(account, tokenUrl);
       toast
         .promise(transaction.wait(), {
-          loading: `Transaction submitted. Wait for confirmation...`,
+          loading: "Transaction submitted. Wait for confirmation...",
           success: <b>Transaction confirmed!</b>,
           error: <b>Transaction failed!.</b>,
         })
@@ -116,7 +109,7 @@ function NFTApp() {
     if (file) formdata.append("file", file);
 
     setIsOpen(false);
-    const response = await fetch(API_URL ? API_URL + "/nft/upload" : "/api/nft/upload", {
+    const response = await fetch(API_URL ? `${API_URL}/nft/upload` : "/api/nft/upload", {
       method: "POST",
       body: formdata,
     });
@@ -146,6 +139,7 @@ function NFTApp() {
             viewBox="0 0 24 24"
             stroke="currentColor"
           >
+            <title>Add NFT</title>
             <path
               strokeLinecap="round"
               strokeLinejoin="round"
